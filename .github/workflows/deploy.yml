@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -13,16 +14,16 @@ jobs:
         shell: bash
         working-directory: my-website
     steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: actions/setup-node@v4
-        with: 
-          node-version: '20.x'
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache-dependency-path: .
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
       - name: Build website
         run: npm run build
-
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -36,4 +37,4 @@ jobs:
           # 如果不设置这两个字段，GH actions 机器人会被默认使用。
           # 你可以用自己的用户信息替换它们。
           user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com   
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
