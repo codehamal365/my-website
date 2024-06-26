@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install
+      - name: Build website
+        run: npm build
+
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 要发布到 `gh-pages` 分支的构建输出：
+          publish_dir: my_website/build
+          # 下面两行会将此次部署 commit 的作者设置为官方的
+          # GH-Actions 机器人：
+          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
+          # 如果不设置这两个字段，GH actions 机器人会被默认使用。
+          # 你可以用自己的用户信息替换它们。
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com   
